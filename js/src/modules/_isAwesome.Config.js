@@ -21,7 +21,8 @@
           '2RdwBSPQiwcmiDo9kixcl8', // Pharrel Williams id ('cause he's funny)
           '4dpARuHxo51G3z768sgnrY', // Adele ('cause it rhymes with Pharrel)
           '4ZDoy7AWNgQVmX7T0u0B1j', // No te va gustar ('cause they are from my country)
-          '0yNSzH5nZmHzeE2xn6Xshb'
+          '0yNSzH5nZmHzeE2xn6Xshb', // Calle 13 ('cause they are also latinos)
+          '1Cs0zKBU1kc0i8ypK3B9ai'  // David Guetta (just to have a one more genre)
         ],
 
         templates = {

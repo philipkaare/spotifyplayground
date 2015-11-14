@@ -56,14 +56,14 @@
 <script type="underscore/template" id="artist-tpl">
 	<div class="row">
 		<div class="col-md-2">
-			<a href="<%= item.href %>" target="blank" title="Go to <%=item.name%> profile.">
+			<a href="<%= item.external_urls.spotify %>" target="blank" title="Go to <%=item.name%> profile.">
 				<img class="img-responsive" src="<%= item.images[1].url %>" alt="<%= item.name %>" />
 			</a>
 		</div>
 		<div class="col-md-6">
 			<ul class="list-unstyled">
 				<li>
-					<a href="<%= item.href %>" target="blank" title="Go to <%=item.name%> profile.">
+					<a href="<%= item.external_urls.spotify %>" target="blank" title="Go to <%=item.name%> profile.">
 						<span><%= item.name %></span>
 					</a>
 				</li>
