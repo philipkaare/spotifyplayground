@@ -7,6 +7,7 @@
   window._isAwesome.Config = (function() {
 
     var apiUrl = 'https://api.spotify.com/v1/artists?ids=',
+        detailsUrl = 'https://api.spotify.com/v1/artists/{{id}}/albums',
         artistsIds = [
           /**
            * The ones that I love (I know, I'm getting old)
@@ -43,6 +44,10 @@
       
       getSearchURL: function() {
         return apiUrl + artistsIds.join(',');
+      },
+
+      getDetailsURL: function(artist) {
+        return detailsUrl.replace('{{id}}', artist);
       },
 
       getTemplates: function() {

@@ -75,6 +75,25 @@
             renderList(artistsContainer, items, templates.artist);
             updateFilters(clicked, active);
           });
+
+          getArtistDetails = function(data) {
+            return $.ajax({
+              url: Config.getDetailsURL(data.id),
+              method: 'GET',
+              type: 'post',
+              contentType: 'applications/json'
+            });
+          },
+
+          $('[data-action="get-details"]').on('click', function(e) {
+            e.preventDefault();
+            
+            var clicked = $(e.target);
+
+            getArtistDetails(clicked.data()).then(function(details) {
+              console.log('detail: ', details);
+            });
+          });
         },
 
         getArtists = function() {
