@@ -24,7 +24,7 @@ a:hover, a:active {
 	text-decoration: underline;
 }
 
-#item-container >ul >li {
+.artists >ul >li {
 	border-bottom: 1px solid #828282;
     padding: 20px;
 }

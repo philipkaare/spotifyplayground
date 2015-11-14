@@ -1,25 +1,39 @@
-(function($, _, Config, Template, window, document, undefined) {
+(function($, _, Config, Template, Filter, window, document, undefined) {
 
   window._isAwesome = (function() {
 
     var results = [],
         filteredResults = [],
+        filters = [],
 
         templates = Template.compileTemplates(),
-        itemContainer = $('#item-container'),
+
+        artistsContainer = $('.artists'),
+        filterContainer = $('.filters'),
 
         ACTIVE_CLASS = 'active',
         ACTIVE_SELECTOR = '.' + ACTIVE_CLASS,
 
-        setContent = function(results) {
-          return templates.itemList({
-            items: results,
-            itemTpl: templates.item
+        setContent = function(items, itemTpl) {
+          return templates.list({
+            items: items,
+            itemTpl: itemTpl
           });
         },
 
-        render = function(results) {
-          itemContainer.html(setContent(results));
+        renderList = function(container, items, itemTpl) {
+          container = container ? container : artistsContainer;
+          container.html(setContent(items, itemTpl));
+        },
+
+        renderFilters = function(filters) {
+          filterContainer.html(
+              templates.filterList({
+                filters: filters,
+                filterValuesListTpl: templates.filterValuesList,
+                filterTpl: templates.filter
+              })
+            );
         },
 
         filter = function(filter) {
@@ -30,7 +44,7 @@
           return filteredResults;
         },
 
-        updateView = function(clicked, isActive) {
+        updateFilters = function(clicked, isActive) {
           if(isActive) {
             clicked.removeClass(ACTIVE_CLASS);
           } else {
@@ -51,16 +65,15 @@
         bindEvents = function() {
           $('[data-action="filter"]').on('click', function(e) {
             var clicked = $(e.target),
-                active = isActive(clicked);
+                active = isActive(clicked),
+                items = results;
 
             if(!active) {
-              filter(clicked.data());
-              render(filteredResults);
-            } else {
-              render(results);
+              items = filter(clicked.data());
             }
 
-            updateView(clicked, active);
+            renderList(artistsContainer, items, templates.artist);
+            updateFilters(clicked, active);
           });
         },
 
@@ -78,8 +91,10 @@
       init: function() {
         getArtists().then(function(data) {
           results = data.artists;
+          filters = Filter.getFilters(results);
 
-          render(results);
+          renderList(artistsContainer, results, templates.artist);
+          renderFilters(filters);
           bindEvents();
 
         });
@@ -88,4 +103,4 @@
 
   })();
 
-})(jQuery, _, _isAwesome.Config, _isAwesome.Template, window, document);
+})(jQuery, _, _isAwesome.Config, _isAwesome.Template, _isAwesome.Filter, window, document);

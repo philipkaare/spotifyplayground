@@ -25,9 +25,18 @@
         ],
 
         templates = {
-          itemList: '#item-list-tpl',
-          item: '#item-tpl'
-        };
+          list: '#list-tpl',
+          filterList: '#filter-list-tpl',
+          filterValuesList: '#filter-values-list',
+
+          artist: '#artist-tpl',
+          filter: '#filter-tpl'
+        },
+
+        filters = [{
+          label: 'Genre',
+          field: 'genres'
+        }];
 
     return {
       
@@ -37,6 +46,10 @@
 
       getTemplates: function() {
         return templates;
+      },
+
+      getFilters: function() {
+        return filters;
       }
     }
 

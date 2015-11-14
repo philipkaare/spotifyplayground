@@ -15,40 +15,11 @@
 		</header>
 		<main>
 			<div class="center-block">
-				<div id="filter-container" class="col-sm-2 col-md-2">
-					<p class="lead">Filter by genre</p>
-					<div class="center-block">
-						<ul class="list-unstyled">
-							<li>
-								<button class="btn btn-default sized" data-filter-field="genres" data-filter-value="album rock" data-action="filter">album rock</button>
-							</li>
-							<li>
-								<button class="btn btn-default sized" data-filter-field="genres" data-filter-value="blues-rock" data-action="filter">blues-rock</button>
-							</li>
-							<li>
-								<button class="btn btn-default sized" data-filter-field="genres" data-filter-value="classic rock" data-action="filter">classic rock</button>		
-							</li>
-							<li>
-								<button class="btn btn-default sized" data-filter-field="genres" data-filter-value="rock" data-action="filter">rock</button>		
-							</li>
-							<li>
-								<button class="btn btn-default sized" data-filter-field="genres" data-filter-value="hard rock" data-action="filter">hard rock</button>
-							</li>
-							<li>
-								<button class="btn btn-default sized" data-filter-field="genres" data-filter-value="british blues" data-action="filter">british blues</button>
-							</li>
-							<li>
-								<button class="btn btn-default sized" data-filter-field="genres" data-filter-value="pop rap" data-action="filter">pop rap</button>		
-							</li>
-							<li>
-								<button class="btn btn-default sized" data-filter-field="genres" data-filter-value="pop" data-action="filter">pop</button>
-							</li>
-						</ul>
-					</div>
+				<div class="filters col-sm-2 col-md-2">
 				</div>
 				<div class="col-md-10">
 					<p class="lead">Some artists</p>
-					<div id="item-container"></div>
+					<div class="artists"></div>
 				</div>
 				<div class="clearfix visible-xs-block"></div>
 			</div>
@@ -58,7 +29,31 @@
 </body>
 
 <!-- Templates -->
-<script type="underscore/template" id="item-tpl">
+<script type="underscore/template" id="list-tpl">
+	<ul class="list-unstyled">
+		<% _.each(items, function(item) { %>
+			<li>
+				<%= itemTpl({
+					item: item
+				}) %>
+			</li>
+		<% }) %>
+	</ul>	
+</script>
+
+<script type="underscore/template" id="filter-list-tpl">
+	<% _.each(filters, function(filter) { %>
+		<p class="lead">Filter by <%= filter.label %></p>
+		<div class="center-block">
+			<%= filterValuesListTpl({
+				filter: filter,
+				filterTpl: filterTpl
+			}) %>
+		</div>
+	<% }) %>
+</script>
+
+<script type="underscore/template" id="artist-tpl">
 	<div class="row">
 		<div class="col-md-2">
 			<a href="<%= item.href %>" target="blank" title="Go to <%=item.name%> profile.">
@@ -79,16 +74,22 @@
 		</div>
 	</div>
 </script>
-<script type="underscore/template" id="item-list-tpl">
+
+<script type="underscore/template" id="filter-values-list">
 	<ul class="list-unstyled">
-		<% _.each(items, function(item) { %>
-		<li>
-			<%= itemTpl({
-					item: item
+		<% _.each(filter.values, function(value) { %>
+			<li>
+				<%= filterTpl({
+					filter: filter,
+					value: value
 				}) %>
-		</li>
-		<% }); %>
-	</ul>
+			</li>
+		<% }) %>
+	</ul>	
+</script>
+
+<script type="underscore/template" id="filter-tpl">
+	<button class="btn btn-default sized" data-filter-field="<%= filter.field %>" data-filter-value="<%= value %>" data-action="filter"><%= value %></button>
 </script>
 
 <!-- Scripts -->
@@ -96,6 +97,7 @@
 <script type="text/javascript" src="js/src/lib/jquery.min.js"></script>
 <script type="text/javascript" src="js/src/modules/_isAwesome.Config.js"></script>
 <script type="text/javascript" src="js/src/modules/_isAwesome.Template.js"></script>
+<script type="text/javascript" src="js/src/modules/_isAwesome.Filter.js"></script>
 <script type="text/javascript" src="js/src/modules/_isAwesome.js"></script>
 <script type="text/javascript">
 	(function() {
