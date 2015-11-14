@@ -1,0 +1,35 @@
+html, body {
+	color: #FFFFFF;
+	background: #000000;
+}
+
+.lead {
+	color: #84bd00;
+}
+
+.row {
+	border-bottom: #828282;
+}
+
+.row img {
+	max-width: 100%;
+}
+
+a {
+	color: #FFFFFF;
+}
+
+a:hover, a:active {
+	color: #FFFFFF;
+	text-decoration: underline;
+}
+
+#item-container >ul >li {
+	border-bottom: 1px solid #828282;
+    padding: 20px;
+}
+
+.btn.sized {
+	max-width: 100%;
+	min-width: 80%;
+}
