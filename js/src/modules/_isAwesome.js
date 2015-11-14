@@ -8,6 +8,9 @@
         templates = Template.compileTemplates(),
         itemContainer = $('#item-container'),
 
+        ACTIVE_CLASS = 'active',
+        ACTIVE_SELECTOR = '.' + ACTIVE_CLASS,
+
         setContent = function(results) {
           return templates.itemList({
             items: results,
@@ -27,23 +30,37 @@
           return filteredResults;
         },
 
-        updateView = function(clicked) {
-          clicked
+        updateView = function(clicked, isActive) {
+          if(isActive) {
+            clicked.removeClass(ACTIVE_CLASS);
+          } else {
+            clicked
             .closest('ul')
-              .find('.active')
-                .removeClass('active')
+              .find(ACTIVE_SELECTOR)
+                .removeClass(ACTIVE_CLASS)
                 .end()
               .end()
-            .addClass('active');
+            .addClass(ACTIVE_CLASS);
+          }
+        },
+
+        isActive = function(clicked) {
+          return clicked.hasClass(ACTIVE_CLASS);
         },
 
         bindEvents = function() {
           $('[data-action="filter"]').on('click', function(e) {
-            var clicked = $(e.target);
+            var clicked = $(e.target),
+                active = isActive(clicked);
 
-            updateView(clicked);
-            filter(clicked.data());
-            render(filteredResults);
+            if(!active) {
+              filter(clicked.data());
+              render(filteredResults);
+            } else {
+              render(results);
+            }
+
+            updateView(clicked, active);
           });
         },
 
