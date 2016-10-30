@@ -1,9 +1,15 @@
 (function($, _, Config, Template, Filter, window, document, undefined) {
 
+  var index = lunr(function () {
+   this.field('name')
+   this.ref('id')
+ })
+
+  var result = [];
+
   window._isAwesome = (function() {
 
-    var results = [],
-        filteredResults = [],
+    var filteredResults = [],
         filters = [],
 
         templates = Template.compileTemplates(),
@@ -76,6 +82,22 @@
             updateFilters(clicked, active);
           });
 
+          $('[data-action="search"]').on('click', function(e) {
+            var clicked = $(e.target),
+                items = results;
+
+            var string = $("#searchString").val();
+            var r = index.search(string);
+
+            items = _.filter(results, function(item){
+              return _.find(r, function(ritem){
+                return item.id == ritem.ref;
+              });
+            });
+
+            renderList(artistsContainer, items, templates.artist);
+          });
+
           getArtistDetails = function(data) {
             return $.ajax({
               url: Config.getDetailsURL(data.id),
@@ -87,7 +109,7 @@
 
           $('[data-action="get-details"]').on('click', function(e) {
             e.preventDefault();
-            
+
             var clicked = $(e.target);
 
             getArtistDetails(clicked.data()).then(function(details) {
@@ -110,6 +132,13 @@
       init: function() {
         getArtists().then(function(data) {
           results = data.artists;
+          _.each(data.artists, function(artist)
+          {
+            index.add({
+              id: artist.id,
+              name: artist.name
+            });
+          });
           filters = Filter.getFilters(results);
 
           renderList(artistsContainer, results, templates.artist);
